@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import type { ExperimentConfig, Tab, Point, SVMModel, DatasetPreset } from '../types';
 import { TAB_LIST } from '../types';
 import { trainSVM } from '../engine/svm';
@@ -21,16 +21,10 @@ import {
   Code2,
   Award,
   Library,
-  ChevronLeft,
-  ChevronRight,
   Rotate3d,
   Layers,
   Sparkles,
   Maximize2,
-  Sliders,
-  Cpu,
-  Boxes,
-  TrendingUp,
 } from 'lucide-react';
 
 interface ExperimentViewProps {
@@ -48,20 +42,11 @@ const TAB_ICON_MAP: Record<Tab, React.ReactNode> = {
   references: <Library className="w-4 h-4" />,
 };
 
-const EXP_HEADER_ICONS: Record<string, React.ReactNode> = {
-  Maximize2: <Maximize2 className="w-5 h-5 text-accent-indigo" />,
-  Sliders: <Sliders className="w-5 h-5 text-accent-emerald" />,
-  Cpu: <Cpu className="w-5 h-5 text-accent-cyan" />,
-  Boxes: <Boxes className="w-5 h-5 text-accent-amber" />,
-  TrendingUp: <TrendingUp className="w-5 h-5 text-accent-indigo" />,
-};
-
 export default function ExperimentView({ experiments }: ExperimentViewProps) {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
 
-  const expIndex = experiments.findIndex((e) => e.id === id);
-  const experiment = experiments[expIndex] || experiments[0];
+  // Always use the single flagship SVM experiment
+  const experiment = experiments.find((e) => e.id === id) || experiments[0];
 
   const [activeTab, setActiveTab] = useState<Tab>('aim');
   const [params, setParams] = useState(experiment.defaultParams);
@@ -120,25 +105,21 @@ export default function ExperimentView({ experiments }: ExperimentViewProps) {
     setPoints(pts);
   };
 
-  // Next / Previous experiment navigation
-  const prevExp = expIndex > 0 ? experiments[expIndex - 1] : null;
-  const nextExp = expIndex < experiments.length - 1 ? experiments[expIndex + 1] : null;
-
   return (
     <div className="flex flex-col min-h-full">
       {/* ─── Top Sub-Header & Tab Navigation ───────────────────────────────── */}
       <div className="border-b border-border bg-canvas-secondary/40 backdrop-blur-md px-6 py-3 shrink-0">
-        <div className="flex items-center justify-between gap-4 mb-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-accent-indigo/15 border border-accent-indigo/30 flex items-center justify-center shrink-0">
-              {EXP_HEADER_ICONS[experiment.iconName] || <Maximize2 className="w-5 h-5 text-accent-indigo" />}
+              <Maximize2 className="w-5 h-5 text-accent-indigo" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-accent-indigo/15 text-accent-indigo">
-                  Experiment {experiment.number}
+                  Core Experiment
                 </span>
-                <span className="text-xs text-txt-muted">Syllabus Module {experiment.number} of 5</span>
+                <span className="text-xs text-txt-muted">Machine Learning Laboratory</span>
               </div>
               <h1 className="text-base font-bold text-txt-primary truncate">
                 {experiment.title}
@@ -146,28 +127,8 @@ export default function ExperimentView({ experiments }: ExperimentViewProps) {
             </div>
           </div>
 
-          {/* Module Prev/Next Switcher */}
-          <div className="flex items-center gap-1.5 shrink-0">
-            {prevExp && (
-              <button
-                onClick={() => navigate(`/experiment/${prevExp.id}`)}
-                className="btn-ghost text-xs flex items-center gap-1 py-1.5 px-3 rounded-lg border border-border"
-                title={`Previous: ${prevExp.shortTitle}`}
-              >
-                <ChevronLeft className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Prev Exp</span>
-              </button>
-            )}
-            {nextExp && (
-              <button
-                onClick={() => navigate(`/experiment/${nextExp.id}`)}
-                className="btn-primary text-xs flex items-center gap-1 py-1.5 px-3 rounded-lg"
-                title={`Next: ${nextExp.shortTitle}`}
-              >
-                <span className="hidden sm:inline">Next Exp</span>
-                <ChevronRight className="w-3.5 h-3.5" />
-              </button>
-            )}
+          <div className="text-xs text-txt-muted font-mono hidden md:block">
+            In-Browser SMO Quadratic Programming Solver
           </div>
         </div>
 
@@ -214,7 +175,7 @@ export default function ExperimentView({ experiments }: ExperimentViewProps) {
                   <div className="flex items-center gap-2">
                     <span className="text-xs font-bold uppercase tracking-wider text-txt-muted flex items-center gap-1.5">
                       <Sparkles className="w-3.5 h-3.5 text-accent-indigo" />
-                      Simulation Workspace
+                      Interactive Coordinate Plane
                     </span>
                   </div>
 

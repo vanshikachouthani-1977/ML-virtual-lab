@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import Sidebar from './components/Sidebar';
 import HomeView from './views/HomeView';
@@ -12,10 +12,8 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>('aim');
   const [cumulativeScore, setCumulativeScore] = useState<number | null>(null);
 
-  // Extract active experiment ID from URL path (e.g. /experiment/hard-margin-svm)
-  const match = location.pathname.match(/\/experiment\/([^/]+)/);
-  const activeExperimentId = match ? match[1] : undefined;
-  const currentExp = EXPERIMENTS.find((e) => e.id === activeExperimentId);
+  const isExp = location.pathname.startsWith('/experiment');
+  const currentExp = isExp ? EXPERIMENTS[0] : undefined;
 
   return (
     <Layout
@@ -24,7 +22,7 @@ export default function App() {
       sidebar={
         <Sidebar
           experiments={EXPERIMENTS}
-          activeExperimentId={activeExperimentId}
+          activeExperimentId={EXPERIMENTS[0].id}
           activeTab={activeTab}
           onTabChange={setActiveTab}
         />
@@ -33,7 +31,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomeView experiments={EXPERIMENTS} />} />
         <Route
-          path="/experiment/:id"
+          path="/experiment/svm"
           element={
             <ExperimentView
               experiments={EXPERIMENTS}
@@ -41,6 +39,8 @@ export default function App() {
             />
           }
         />
+        {/* Route fallback for any legacy URL */}
+        <Route path="/experiment/*" element={<Navigate to="/experiment/svm" replace />} />
       </Routes>
     </Layout>
   );

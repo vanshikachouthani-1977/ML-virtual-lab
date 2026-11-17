@@ -12,10 +12,6 @@ import {
   ChevronRight,
   FlaskConical,
   Maximize2,
-  Sliders,
-  Cpu,
-  Boxes,
-  TrendingUp,
 } from 'lucide-react';
 import type { ExperimentConfig, Tab } from '../types';
 
@@ -39,14 +35,6 @@ const TAB_LABELS: Record<Tab, string> = {
   references: 'References',
 };
 
-const EXP_ICONS: Record<string, React.ReactNode> = {
-  Maximize2: <Maximize2 className="w-4 h-4 text-accent-indigo" />,
-  Sliders: <Sliders className="w-4 h-4 text-accent-emerald" />,
-  Cpu: <Cpu className="w-4 h-4 text-accent-cyan" />,
-  Boxes: <Boxes className="w-4 h-4 text-accent-amber" />,
-  TrendingUp: <TrendingUp className="w-4 h-4 text-accent-indigo" />,
-};
-
 interface SidebarProps {
   experiments: ExperimentConfig[];
   activeExperimentId?: string;
@@ -64,6 +52,9 @@ export default function Sidebar({
   const location = useLocation();
   const isHome = location.pathname === '/' || location.pathname === '';
 
+  const exp = experiments[0];
+  const isExpActive = location.pathname.startsWith('/experiment') || !isHome;
+
   const tabs: Tab[] = ['aim', 'theory', 'pretest', 'simulation', 'code', 'posttest', 'references'];
 
   return (
@@ -79,63 +70,62 @@ export default function Sidebar({
         </button>
       </div>
 
-      {/* Experiments section */}
+      {/* Experiment Section Header */}
       <div className="px-3 mb-2">
         <div className="flex items-center gap-2 px-3 py-1">
           <FlaskConical className="w-3.5 h-3.5 text-txt-muted" />
           <span className="text-[11px] font-bold uppercase tracking-wider text-txt-muted">
-            Experiments Syllabus
+            Experiment Module
           </span>
         </div>
       </div>
 
-      {/* Experiment list */}
+      {/* Single Experiment Item */}
       <div className="px-3 space-y-1 flex-1 overflow-y-auto">
-        {experiments.map((exp) => {
-          const isActive = activeExperimentId === exp.id;
-          return (
-            <div key={exp.id}>
-              <button
-                onClick={() => navigate(`/experiment/${exp.id}`)}
-                className={`sidebar-item w-full group ${isActive ? 'active' : ''}`}
-              >
-                <div className="w-5 h-5 rounded-md flex items-center justify-center shrink-0">
-                  {EXP_ICONS[exp.iconName] || <Maximize2 className="w-4 h-4" />}
-                </div>
-                <span className="flex-1 text-left truncate text-xs font-semibold">{exp.shortTitle}</span>
-                {isActive && (
-                  <ChevronRight className="w-3.5 h-3.5 text-accent-indigo opacity-60" />
-                )}
-              </button>
-
-              {/* Sub-tabs for active experiment */}
-              {isActive && activeTab && (
-                <div className="ml-5 mt-1 mb-2 space-y-0.5 border-l border-border/80 pl-2 animate-slide-in">
-                  {tabs.map((tab) => (
-                    <button
-                      key={tab}
-                      onClick={() => onTabChange?.(tab)}
-                      className={`sidebar-item w-full text-xs py-1.5 ${
-                        activeTab === tab ? 'active' : ''
-                      }`}
-                    >
-                      {TAB_ICONS[tab]}
-                      <span>{TAB_LABELS[tab]}</span>
-                    </button>
-                  ))}
-                </div>
-              )}
+        <div>
+          <button
+            onClick={() => navigate(`/experiment/${exp.id}`)}
+            className={`sidebar-item w-full group ${isExpActive ? 'active' : ''}`}
+          >
+            <div className="w-5 h-5 rounded-md flex items-center justify-center shrink-0">
+              <Maximize2 className="w-4 h-4 text-accent-indigo" />
             </div>
-          );
-        })}
+            <span className="flex-1 text-left truncate text-xs font-semibold">{exp.shortTitle}</span>
+            <ChevronRight className="w-3.5 h-3.5 text-accent-indigo opacity-60" />
+          </button>
+
+          {/* Sub-tabs for the single experiment */}
+          <div className="ml-5 mt-1 mb-2 space-y-0.5 border-l border-border/80 pl-2 animate-slide-in">
+            {tabs.map((tab) => {
+              const isTabSelected = isExpActive && activeTab === tab;
+              return (
+                <button
+                  key={tab}
+                  onClick={() => {
+                    if (location.pathname !== `/experiment/${exp.id}`) {
+                      navigate(`/experiment/${exp.id}`);
+                    }
+                    onTabChange?.(tab);
+                  }}
+                  className={`sidebar-item w-full text-xs py-1.5 ${
+                    isTabSelected ? 'active font-bold' : ''
+                  }`}
+                >
+                  {TAB_ICONS[tab]}
+                  <span>{TAB_LABELS[tab]}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
       {/* Institutional Footer */}
       <div className="px-4 pt-4 mt-auto border-t border-border">
         <div className="text-[10px] text-txt-muted leading-relaxed">
           <p className="font-bold text-txt-secondary uppercase tracking-wider">Department of Computer Engineering</p>
-          <p className="mt-0.5">Machine Learning Laboratory</p>
-          <p className="mt-1 text-[9px] text-txt-muted/80">Aligned with AICTE & Virtual Labs (NMEICT)</p>
+          <p className="mt-0.5">Machine Learning Virtual Lab</p>
+          <p className="mt-1 text-[9px] text-txt-muted/80">Support Vector Machine (SVM)</p>
         </div>
       </div>
     </div>

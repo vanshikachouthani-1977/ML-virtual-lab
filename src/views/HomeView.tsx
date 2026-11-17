@@ -9,33 +9,24 @@ import {
   GraduationCap,
   BookOpen,
   Maximize2,
-  Sliders,
-  TrendingUp,
-  CheckCircle2,
   Binary,
   Compass,
   FileCode,
   Layers,
   Activity,
+  CheckCircle2,
 } from 'lucide-react';
 
 interface HomeViewProps {
   experiments: ExperimentConfig[];
 }
 
-const EXP_CARD_ICONS: Record<string, React.ReactNode> = {
-  Maximize2: <Maximize2 className="w-5 h-5 text-accent-indigo" />,
-  Sliders: <Sliders className="w-5 h-5 text-accent-emerald" />,
-  Cpu: <Cpu className="w-5 h-5 text-accent-cyan" />,
-  Boxes: <Boxes className="w-5 h-5 text-accent-amber" />,
-  TrendingUp: <TrendingUp className="w-5 h-5 text-accent-indigo" />,
-};
-
 export default function HomeView({ experiments }: HomeViewProps) {
   const navigate = useNavigate();
+  const exp = experiments[0];
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-10 space-y-12 animate-fade-in">
+    <div className="max-w-5xl mx-auto px-6 py-10 space-y-12 animate-fade-in">
       {/* ─── Institutional Header Banner ──────────────────────────────────── */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-border/80">
         <div>
@@ -48,7 +39,7 @@ export default function HomeView({ experiments }: HomeViewProps) {
         </div>
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-canvas-card border border-border text-xs text-txt-secondary">
           <GraduationCap className="w-4 h-4 text-accent-indigo" />
-          <span>Curriculum Aligned: B.Tech / BE Computer Engineering</span>
+          <span>B.Tech / BE Computer Engineering • Machine Learning Lab</span>
         </div>
       </div>
 
@@ -57,31 +48,31 @@ export default function HomeView({ experiments }: HomeViewProps) {
         <div className="max-w-3xl space-y-5">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-indigo/15 border border-accent-indigo/30 text-xs font-semibold text-accent-indigo">
             <Binary className="w-3.5 h-3.5" />
-            <span>Course Module: Statistical Machine Learning & Convex Optimization</span>
+            <span>Virtual Lab Experiment</span>
           </div>
 
           <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-txt-primary leading-tight">
-            Support Vector Machine (SVM) Virtual Laboratory
+            Support Vector Machine (SVM)
           </h1>
 
           <p className="text-sm md:text-base text-txt-secondary leading-relaxed">
-            An interactive engineering workspace designed to master the mathematical foundations, geometric margin formulations, dual optimization, and kernel methods of Support Vector Machines. Compute real-time hyperplanes, evaluate slack penalties, and project non-linear manifolds into 3D Hilbert spaces directly in your browser.
+            An interactive laboratory designed for Computer Engineering students to study, formulate, and simulate Support Vector Machines. Explore convex quadratic optimization, maximum margin hyperplanes (2/||w||), soft-margin slack variables (penalty C), and non-linear kernel transformations (Polynomial and Gaussian RBF) in both 2D coordinate space and 3D feature space.
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <button
-              onClick={() => navigate(`/experiment/${experiments[0].id}`)}
-              className="btn-primary text-xs font-semibold px-5 py-2.5 flex items-center gap-2 rounded-lg"
+              onClick={() => navigate(`/experiment/${exp.id}`)}
+              className="btn-primary text-xs font-semibold px-6 py-3 flex items-center gap-2 rounded-xl shadow-glow-indigo text-sm"
             >
-              <span>Begin Experiment 1: Hard-Margin Linear SVM</span>
+              <span>Enter Virtual Lab Simulation</span>
               <ArrowRight className="w-4 h-4" />
             </button>
-            <a
-              href="#experiments-syllabus"
-              className="btn-outline text-xs font-semibold px-4 py-2.5 rounded-lg"
+            <button
+              onClick={() => navigate(`/experiment/${exp.id}`)}
+              className="btn-outline text-xs font-semibold px-5 py-3 rounded-xl text-sm"
             >
-              Review Syllabus Catalog
-            </a>
+              View Theory & Mathematical Derivations
+            </button>
           </div>
         </div>
 
@@ -90,166 +81,132 @@ export default function HomeView({ experiments }: HomeViewProps) {
           <div className="space-y-1">
             <div className="text-xs font-mono font-bold text-accent-indigo flex items-center gap-1.5">
               <Activity className="w-3.5 h-3.5" />
-              <span>SMO Engine</span>
+              <span>SMO QP Solver</span>
             </div>
-            <p className="text-[11px] text-txt-muted">Pure TypeScript Quadratic Programming</p>
+            <p className="text-[11px] text-txt-muted">Client-Side Sequential Minimal Optimization (60 FPS)</p>
           </div>
           <div className="space-y-1">
             <div className="text-xs font-mono font-bold text-accent-emerald flex items-center gap-1.5">
               <Compass className="w-3.5 h-3.5" />
               <span>Convex Optimization</span>
             </div>
-            <p className="text-[11px] text-txt-muted">Karush-Kuhn-Tucker (KKT) Verification</p>
+            <p className="text-[11px] text-txt-muted">Karush-Kuhn-Tucker (KKT) Complementarity Verification</p>
           </div>
           <div className="space-y-1">
             <div className="text-xs font-mono font-bold text-accent-cyan flex items-center gap-1.5">
               <Layers className="w-3.5 h-3.5" />
               <span>3D Feature Space</span>
             </div>
-            <p className="text-[11px] text-txt-muted">Kernel Trick Projection Visualizer</p>
+            <p className="text-[11px] text-txt-muted">Rotatable Paraboloid Kernel Projection Visualizer</p>
           </div>
           <div className="space-y-1">
             <div className="text-xs font-mono font-bold text-accent-amber flex items-center gap-1.5">
               <FileCode className="w-3.5 h-3.5" />
               <span>Scikit-Learn Bridge</span>
             </div>
-            <p className="text-[11px] text-txt-muted">Dynamic Python Code Generation</p>
+            <p className="text-[11px] text-txt-muted">Live Python Code Generator Synced to Sliders</p>
           </div>
         </div>
       </div>
 
-      {/* ─── Pedagogical Framework Matrix ─────────────────────────────────── */}
+      {/* ─── Pedagogical Lifecycle ────────────────────────────────────────── */}
       <div className="space-y-4">
         <div className="space-y-1">
           <div className="text-xs font-bold uppercase tracking-widest text-accent-indigo">
-            Standard Operating Procedure
+            Standard Pedagogy Structure
           </div>
           <h2 className="text-xl font-bold text-txt-primary">
-            Virtual Laboratory Pedagogical Lifecycle
+            Experiment Structure & Workflow
           </h2>
           <p className="text-xs text-txt-secondary">
-            Each laboratory experiment follows the standardized structural lifecycle:
+            Following the official Virtual Labs (VLABS) instructional design model:
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-7 gap-2.5">
           {[
-            { num: '01', title: 'Aim & Overview', desc: 'Formal problem statement & objectives' },
-            { num: '02', title: 'Mathematical Theory', desc: 'Primal, Dual & KKT derivations via KaTeX' },
-            { num: '03', title: 'Diagnostic Pre-Test', desc: 'Evaluates prerequisite comprehension' },
-            { num: '04', title: 'Interactive Lab', desc: 'Real-time coordinate simulation & parameter tuning' },
-            { num: '05', title: 'Code Synchronizer', desc: 'Auto-generated Scikit-Learn Python script' },
-            { num: '06', title: 'Evaluative Post-Test', desc: 'Scored assessment with detailed feedback' },
+            { num: '01', title: 'Aim', desc: 'Formal problem statement & objectives' },
+            { num: '02', title: 'Theory', desc: 'Primal, Dual & KKT derivations via KaTeX' },
+            { num: '03', title: 'Pre-Test', desc: 'Prerequisite diagnostic assessment' },
+            { num: '04', title: 'Simulation', desc: '2D & 3D real-time interactive lab' },
+            { num: '05', title: 'Code', desc: 'Live Scikit-Learn Python export' },
+            { num: '06', title: 'Post-Test', desc: 'Evaluative comprehension quiz' },
+            { num: '07', title: 'References', desc: 'Classic textbooks & academic papers' },
           ].map((item, i) => (
-            <div key={i} className="glass-card p-4 space-y-1.5 border border-border/80">
+            <div key={i} className="glass-card p-3.5 space-y-1 border border-border/80 text-center">
               <div className="text-[10px] font-mono font-bold text-accent-indigo">{item.num}</div>
               <div className="text-xs font-bold text-txt-primary">{item.title}</div>
-              <div className="text-[11px] text-txt-muted leading-relaxed">{item.desc}</div>
+              <div className="text-[10px] text-txt-muted leading-tight">{item.desc}</div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* ─── Scientific Core Principles ──────────────────────────────────── */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div className="glass-card p-6 space-y-2.5 border border-border/80">
-          <div className="w-9 h-9 rounded-lg bg-accent-indigo/15 border border-accent-indigo/30 flex items-center justify-center text-accent-indigo">
-            <ShieldCheck className="w-5 h-5" />
-          </div>
-          <h3 className="text-sm font-bold text-txt-primary">Margin Maximization & Duality</h3>
-          <p className="text-xs text-txt-secondary leading-relaxed">
-            Learn why maximizing the geometric distance 2/||w|| provides formal generalization bounds (Vapnik-Chervonenkis dimension). Formulate the Wolfe Dual and examine support vector sparsity.
-          </p>
-        </div>
-
-        <div className="glass-card p-6 space-y-2.5 border border-border/80">
-          <div className="w-9 h-9 rounded-lg bg-accent-cyan/15 border border-accent-cyan/30 flex items-center justify-center text-accent-cyan">
-            <Cpu className="w-5 h-5" />
-          </div>
-          <h3 className="text-sm font-bold text-txt-primary">The Kernel Trick & Hilbert Spaces</h3>
-          <p className="text-xs text-txt-secondary leading-relaxed">
-            Discover Cover\'s Theorem on separability. Map 2D non-linear points implicitly into higher-dimensional Hilbert spaces using Linear, Polynomial, and Radial Basis Function (RBF) Mercer kernels.
-          </p>
-        </div>
-
-        <div className="glass-card p-6 space-y-2.5 border border-border/80">
-          <div className="w-9 h-9 rounded-lg bg-accent-emerald/15 border border-accent-emerald/30 flex items-center justify-center text-accent-emerald">
-            <Boxes className="w-5 h-5" />
-          </div>
-          <h3 className="text-sm font-bold text-txt-primary">Slack Variables & Regularization</h3>
-          <p className="text-xs text-txt-secondary leading-relaxed">
-            Evaluate the bias-variance trade-off on noisy or overlapping datasets. Analyze Hinge Loss minimization and the role of the box constraint 0 ≤ αᵢ ≤ C on support vector classification.
-          </p>
-        </div>
-      </div>
-
-      {/* ─── Experiments Syllabus ─────────────────────────────────────────── */}
-      <div id="experiments-syllabus" className="space-y-4 pt-4">
-        <div className="flex items-center justify-between">
-          <div className="space-y-0.5">
-            <div className="text-xs font-bold uppercase tracking-widest text-accent-indigo">
-              Laboratory Syllabus
+      {/* ─── Experiment Overview Card ─────────────────────────────────────── */}
+      <div className="glass-card p-6 border border-border/80 space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-start gap-4">
+            <div className="w-12 h-12 rounded-xl bg-accent-indigo/15 border border-accent-indigo/30 flex items-center justify-center shrink-0">
+              <Maximize2 className="w-6 h-6 text-accent-indigo" />
             </div>
-            <h2 className="text-xl font-bold text-txt-primary">
-              List of Experiments
-            </h2>
+            <div>
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-accent-indigo/15 text-accent-indigo">
+                Laboratory Experiment
+              </span>
+              <h2 className="text-lg font-bold text-txt-primary mt-1">
+                Support Vector Machine (SVM)
+              </h2>
+              <p className="text-xs text-txt-secondary leading-relaxed mt-1 max-w-2xl">
+                {exp.description}
+              </p>
+            </div>
           </div>
-          <span className="text-xs text-txt-muted font-mono">5 Core Experiments</span>
+
+          <button
+            onClick={() => navigate(`/experiment/${exp.id}`)}
+            className="btn-primary text-xs py-2.5 px-4 flex items-center gap-1.5 rounded-lg shrink-0"
+          >
+            <span>Start Experiment</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
         </div>
 
-        <div className="space-y-3">
-          {experiments.map((exp) => (
-            <div
-              key={exp.id}
-              onClick={() => navigate(`/experiment/${exp.id}`)}
-              className="glass-card p-5 glass-card-hover cursor-pointer group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-border/80"
-            >
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-canvas-primary border border-border/80 flex items-center justify-center shrink-0 mt-0.5">
-                  {EXP_CARD_ICONS[exp.iconName] || <Maximize2 className="w-5 h-5 text-accent-indigo" />}
-                </div>
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-accent-indigo/15 text-accent-indigo">
-                      Experiment {exp.number}
-                    </span>
-                    <h3 className="text-sm font-bold text-txt-primary group-hover:text-accent-indigo transition-colors">
-                      {exp.title}
-                    </h3>
-                  </div>
-                  <p className="text-xs text-txt-secondary leading-relaxed max-w-2xl">
-                    {exp.description}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5 pt-1">
-                    {exp.features.map((f, fi) => (
-                      <span
-                        key={fi}
-                        className="text-[10px] px-2 py-0.5 rounded bg-canvas-elevated text-txt-muted font-mono"
-                      >
-                        {f}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3 shrink-0 self-end sm:self-center">
-                <span className="text-xs text-txt-muted hidden md:flex items-center gap-1">
-                  <BookOpen className="w-3.5 h-3.5 text-accent-indigo" />
-                  Theory + Simulation + Quizzes
-                </span>
-                <button className="btn-primary text-xs py-2 px-3.5 flex items-center gap-1.5 rounded-lg">
-                  <span>Enter Lab</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                </button>
-              </div>
+        {/* Core Topics Covered */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-border/60">
+          <div className="p-3 rounded-lg bg-canvas-primary/50 border border-border text-xs space-y-1">
+            <div className="font-semibold text-txt-primary flex items-center gap-1.5">
+              <ShieldCheck className="w-3.5 h-3.5 text-accent-indigo" />
+              <span>Hard & Soft Margin SVM</span>
             </div>
-          ))}
+            <p className="text-[11px] text-txt-muted">
+              Margin derivation 2/||w||, slack variables ξᵢ, and regularization parameter C.
+            </p>
+          </div>
+
+          <div className="p-3 rounded-lg bg-canvas-primary/50 border border-border text-xs space-y-1">
+            <div className="font-semibold text-txt-primary flex items-center gap-1.5">
+              <Cpu className="w-3.5 h-3.5 text-accent-cyan" />
+              <span>The Kernel Trick (2D to 3D)</span>
+            </div>
+            <p className="text-[11px] text-txt-muted">
+              Linear, Polynomial, and Gaussian RBF kernels with interactive 3D paraboloid feature space.
+            </p>
+          </div>
+
+          <div className="p-3 rounded-lg bg-canvas-primary/50 border border-border text-xs space-y-1">
+            <div className="font-semibold text-txt-primary flex items-center gap-1.5">
+              <Boxes className="w-3.5 h-3.5 text-accent-emerald" />
+              <span>Dual Optimization & Sparsity</span>
+            </div>
+            <p className="text-[11px] text-txt-muted">
+              Wolfe dual formulation, KKT conditions, and active support vector identification.
+            </p>
+          </div>
         </div>
       </div>
 
       {/* ─── Institutional Course Alignment ───────────────────────────────── */}
-      <div className="glass-card p-6 border border-border/80 space-y-4">
+      <div className="glass-card p-6 border border-border/80 space-y-3">
         <div className="flex items-center gap-2.5">
           <GraduationCap className="w-5 h-5 text-accent-indigo" />
           <h3 className="text-sm font-bold uppercase tracking-wider text-txt-primary">
@@ -257,15 +214,15 @@ export default function HomeView({ experiments }: HomeViewProps) {
           </h3>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-          <div className="p-3.5 rounded-xl bg-canvas-primary/60 border border-border/70 space-y-1">
+          <div className="p-3 rounded-xl bg-canvas-primary/60 border border-border/70 space-y-1">
             <strong className="text-txt-primary block">B.Tech in Computer Science & Engineering</strong>
-            <p className="text-txt-muted">Covers PCC-CS 601: Machine Learning Laboratory curriculum requirements.</p>
+            <p className="text-txt-muted">Fulfills Machine Learning Laboratory (PCC-CS 601) syllabus requirements.</p>
           </div>
-          <div className="p-3.5 rounded-xl bg-canvas-primary/60 border border-border/70 space-y-1">
-            <strong className="text-txt-primary block">B.Tech in Artificial Intelligence & Data Science</strong>
-            <p className="text-txt-muted">Supports Statistical Learning, Supervised Classifiers, and Optimization Units.</p>
+          <div className="p-3 rounded-xl bg-canvas-primary/60 border border-border/70 space-y-1">
+            <strong className="text-txt-primary block">B.Tech in AI & Data Science</strong>
+            <p className="text-txt-muted">Covers Supervised Classification, Loss Formulations, and Convex Optimization modules.</p>
           </div>
-          <div className="p-3.5 rounded-xl bg-canvas-primary/60 border border-border/70 space-y-1">
+          <div className="p-3 rounded-xl bg-canvas-primary/60 border border-border/70 space-y-1">
             <strong className="text-txt-primary block">M.Tech / MS by Research in Computer Engineering</strong>
             <p className="text-txt-muted">Provides laboratory simulations for Advanced Pattern Recognition and Kernel Methods.</p>
           </div>
